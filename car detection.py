@@ -2,21 +2,18 @@ import time
 
 import cv2
 
+# Original github code from https://github.com/SarahZarei/Car-Detection
 cap = cv2.VideoCapture('video.avi')
 
 car_cascade = cv2.CascadeClassifier('cars.xml')
 
 average = 0
 entries = 0
-# width  = cap.get(3) # float width
-# height = cap.get(4) # float height
-# Make a video writer to see if video being taken as input inflict any changes you make
-# fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-# out_video = cv2.VideoWriter('result/output.avi', fourcc, 20.0, (int(width), int(height)), True)
-# Then try this
+
+# Run while detecting the video capture images
 while (cap.isOpened()):
     start = time.time()
-    # Read each frame where ret is a return boollean value(True or False)
+    # Read each frame where ret is a return boolean value(True or False)
     ret, frame = cap.read()
     # if return is true continue because if it isn't then frame is of NoneType in that case you cant work on that frame
     if ret:
@@ -36,7 +33,7 @@ while (cap.isOpened()):
         # to forcefully stop the running loop and break out, if it doesnt work use ctlr+c
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
+        # Display the timm needed for the current frame capture
         elapsed = time.time() - start
         print('Time for Frame: {:.3f} ms'.format(elapsed * 1000.0))
         average += elapsed * 1000.0
@@ -46,19 +43,6 @@ while (cap.isOpened()):
     else:
         break
 
-# while True:
-#    ret, frame = cap.read()
-
-#    gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-
-#    cars = car_cascade.detectMultiScale(gray, 1.1, 1)
-
-#    for (x, y, w, h) in cars:
-#        cv.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)
-
-# cv.imshow('video2', frame)
-
-# if cv.waitKey(33) == 27:
-#    pass
+# Added to display the average frame rate time
 print('Average for Frames: {:.3f} ms'.format(average / entries))
 cv2.destroyAllWindows()
